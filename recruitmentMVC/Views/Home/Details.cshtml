@@ -1,0 +1,46 @@
+﻿@model HomeDetailsViewModel
+@inject IAuthorizationService authorizationService;
+
+@{
+    ViewBag.Title = "Job Details";
+    var photoPath = "~/logos/" + (Model.Job.ImagePath ?? "personIcon.png");
+}
+
+<div class="card" style="background-color: #28A745;">
+    <h1 class="text-center">Job Details</h1>
+    <hr />
+
+    <div style="background-color:transparent;">
+        <h5><img src="@photoPath" height="100" width="100" asp-append-version="true" /> @Model.Job.Name</h5>
+        <h6>Position: @Model.Job.Position</h6>
+        <h6>Location: @Model.Job.Location</h6>
+        <h6>Job Type: @Model.Job.Type</h6>
+        <h6>Salary: R @Model.Job.Salary</h6>
+        <h6>Qualification: @Model.Job.Qualification</h6>
+        <h6>Skills: @Model.Job.Skills</h6>
+        <h6>Experience: @Model.Job.Experience</h6>
+        <h6>About: @Model.Job.About</h6>
+        <h6>Date Posted: @Model.Job.pDate</h6>
+        <h6>Closing Date: @Model.Job.cDate</h6>
+        @if ((await authorizationService.AuthorizeAsync(User, "AdminRolePolicy")).Succeeded)
+        {
+            <div>
+                <a asp-controller="home" asp-action="edit" asp-route-id="@Model.Job.Id" style=" border-color:white;color:black; width:auto" class="btn btn-outline-success m-1">Edit</a>
+                <a asp-controller="home" asp-action="delete" asp-route-id="@Model.Job.Id" class="btn btn-outline-danger">Delete</a>
+                <a asp-controller="home" asp-action="Index" asp-route-id="@Model.Job.Id" style=" border-color:white;color:black; width:auto" class="btn btn-outline-success m-1">Back</a>
+            </div>
+        }
+        else
+        {
+            <a asp-controller="home" asp-action="apply" asp-route-id="@Model.Job.Id" style=" border-color:white;color:black; width:auto" class="btn btn-outline-success m-1">Apply</a>
+            <a asp-controller="home" asp-action="Index" asp-route-id="@Model.Job.Id" style=" border-color:white;color:black; width:auto" class="btn btn-outline-success m-1">Back</a>
+        }
+
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/site.js"></script>
+}
+
+

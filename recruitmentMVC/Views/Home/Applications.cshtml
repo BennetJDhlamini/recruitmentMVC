@@ -1,0 +1,42 @@
+﻿@model IEnumerable<Application>
+
+@{
+    ViewBag.Title = "Applications";
+}
+
+<div style="background-color: white;border-color: #28A745;">
+    <h1 class="text-center">List of applications</h1>
+    <hr />
+    <form method="get" class="example">
+        <input style="background-color: white; border-color:#28A745;color:black;" type="text" placeholder="Search Application" name="searchApplication" asp-action="Application">
+        <button style="background-color: transparent;border:none;color:black;" class="btn btn-success" type="submit"><i class="fa fa-search"></i></button>
+    </form>
+    <h1></h1>
+    <div>
+        @foreach (var application in Model)
+        {
+        <div class="card" style="background-color: #28A745;border-color: white; min-width: auto; max-width:auto;">
+            <label>Name: @application.Name  @application.Surname</label>
+            <label>Email: @application.Email </label>
+            <label>Contact number: @application.Contact</label>
+            <label>Resume/CV: <a href="~/resumes/@application.ResumePath">@application.ResumePath</a></label>
+            <label>ID: <a href="~/ids/@application.IdPath"> @application.IdPath</a></label>
+            <label>Transcript: <a href="~/transcripts/@application.transcriptPath"> @application.transcriptPath</a></label>
+            <label>Matric certificate: <a href="~/matric/@application.matricCertificatePath"> @application.matricCertificatePath</a></label>
+            <label>Relevant documents: <a href="~/relevant/@application.relevantDocsPath">@application.relevantDocsPath</a></label>
+            <label><a href="~/resumes/@application.ResumePath @application.IdPath @application.transcriptPath @application.matricCertificatePath @application.relevantDocsPath">Download all documents</a></label>
+        </div>
+        }
+    </div>
+</div>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('.custom-file-input').on("change", function () {
+                var fileName = $(this).val().split("\\").pop();
+                $(this).next('.custom-file-label').html(fileName);
+            });
+        });
+    </script>
+}
+
